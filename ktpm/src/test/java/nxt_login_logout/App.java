@@ -1,4 +1,4 @@
-package guru;
+package nxt_login_logout;
 
 import org.testng.Assert;
 import org.openqa.selenium.By;
