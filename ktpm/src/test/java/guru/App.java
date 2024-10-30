@@ -18,6 +18,7 @@ public class App {
     LoginPage loginPage;
     HomePage homePage;
     NewAccountPage newAccountPage;
+    CustomizedStatementPage customizedStatementPage;
 
     @BeforeClass
     public void setUp() {
@@ -27,6 +28,7 @@ public class App {
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
         newAccountPage = new NewAccountPage(driver);
+        customizedStatementPage = new CustomizedStatementPage(driver);
     }
 
     @Test
@@ -184,6 +186,114 @@ public class App {
         newAccountPage.setAccountType("Current");
         newAccountPage.setInitialDeposit(" 123");
         Assert.assertEquals(newAccountPage.getInitialDepositAlert(), "First character can not have space");
+    }
+
+    // Test case for Customized Statement
+    @Test
+    @DisplayName("TC1 - Customized Statement")
+    public void testCase9() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickCustomizedStatement();
+        customizedStatementPage.setAccountNo("123456789");
+        customizedStatementPage.setFromDate("01/01/2023");
+        customizedStatementPage.setToDate("31/12/2023");
+        customizedStatementPage.setMinimumTransactionValue("1000");
+        customizedStatementPage.setNumberOfTransaction("5");
+        customizedStatementPage.submit();
+        //bat su kien Navigate to CustomisedStatement page.
+        String expectedUrl = "https://www.demo.guru99.com/V4/manager/CustomisedStatement.php";
+        Assert.assertEquals(driver.getCurrentUrl(), expectedUrl);
+    }
+
+    @Test
+    @DisplayName("TC2 - Customized Statement")
+    public void testCase10() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickCustomizedStatement();
+        customizedStatementPage.setAccountNo("123456789");
+        customizedStatementPage.setFromDate("");
+        customizedStatementPage.setToDate("31/12/2023");
+        customizedStatementPage.setMinimumTransactionValue("1000");
+        customizedStatementPage.setNumberOfTransaction("5");
+        Assert.assertEquals(customizedStatementPage.getFromDateAlert(), "From Date Field must not be blank");
+    }
+
+    @Test
+    @DisplayName("TC3 - Customized Statement")
+    public void testCase11() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickCustomizedStatement();
+        customizedStatementPage.setAccountNo("123456789");
+        customizedStatementPage.setFromDate("01/01/2023");
+        customizedStatementPage.setToDate("");
+        customizedStatementPage.setMinimumTransactionValue("1000");
+        customizedStatementPage.setNumberOfTransaction("5");
+        Assert.assertEquals(customizedStatementPage.getToDateAlert(), "To Date Field must not be blank");
+    }
+
+    @Test
+    @DisplayName("TC4 - Customized Statement")
+    public void testCase12() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickCustomizedStatement();
+        customizedStatementPage.setAccountNo("123456789");
+        customizedStatementPage.setFromDate("01/01/2023");
+        customizedStatementPage.setToDate("31/12/2023");
+        customizedStatementPage.setMinimumTransactionValue("-100");
+        customizedStatementPage.setNumberOfTransaction("5");
+        Assert.assertEquals(customizedStatementPage.getMinimumTransactionValueAlert(), "Minimum Transaction Value must be positive");
+    }
+
+    @Test
+    @DisplayName("TC5 - Customized Statement")
+    public void testCase13() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickCustomizedStatement();
+        customizedStatementPage.setAccountNo("123456789");
+        customizedStatementPage.setFromDate("01/01/2023");
+        customizedStatementPage.setToDate("31/12/2023");
+        customizedStatementPage.setMinimumTransactionValue("1000");
+        customizedStatementPage.setNumberOfTransaction("-100");
+        Assert.assertEquals(customizedStatementPage.getNumberOfTransactionAlert(), "Number of Transactions Value must be positive");
+    }
+
+    @Test
+    @DisplayName("TC6 - Customized Statement")
+    public void testCase14() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickCustomizedStatement();
+        customizedStatementPage.setAccountNo("123456789");
+        customizedStatementPage.setFromDate("01/01/2023");
+        customizedStatementPage.setToDate("31/12/2023");
+        customizedStatementPage.setMinimumTransactionValue("/");
+        customizedStatementPage.setNumberOfTransaction("5");
+        Assert.assertEquals(customizedStatementPage.getMinimumTransactionValueAlert(), "Special characters are not allowed");
+    }
+
+    @Test
+    @DisplayName("TC7 - Customized Statement")
+    public void testCase15() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickCustomizedStatement();
+        customizedStatementPage.setAccountNo("123456789");
+        customizedStatementPage.setFromDate("01/01/2023");
+        customizedStatementPage.setToDate("31/12/2023");
+        customizedStatementPage.setMinimumTransactionValue("1000");
+        customizedStatementPage.setNumberOfTransaction(" 12");
+        Assert.assertEquals(customizedStatementPage.getNumberOfTransactionAlert(), "First character cannot have space");
+    }
+
+    @Test
+    @DisplayName("TC8 - Customized Statement")
+    public void testCase16() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickCustomizedStatement();
+        customizedStatementPage.setAccountNo("123456789");
+        customizedStatementPage.setFromDate("01/01/2024");
+        customizedStatementPage.setToDate("01/01/2023");
+        customizedStatementPage.setMinimumTransactionValue("1000");
+        customizedStatementPage.setNumberOfTransaction("5");
+        Assert.assertEquals(customizedStatementPage.getFromDateAlert(), "From Date cannot be later than To Date");
     }
 
     @AfterClass
