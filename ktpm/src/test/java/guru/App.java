@@ -2,6 +2,7 @@ package guru;
 
 import java.time.Duration;
 
+import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -16,6 +17,7 @@ public class App {
     WebDriver driver;
     LoginPage loginPage;
     HomePage homePage;
+    NewAccountPage newAccountPage;
 
     @BeforeClass
     public void setUp() {
@@ -24,6 +26,7 @@ public class App {
         driver.get("http://www.demo.guru99.com/V4/");
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
+        newAccountPage = new NewAccountPage(driver);
     }
 
     @Test
@@ -39,8 +42,6 @@ public class App {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
         wait.until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        
-
     }
 
     @Test
@@ -92,6 +93,97 @@ public class App {
         homePage.logout();
         driver.navigate().refresh();
         Assert.assertTrue(driver.getPageSource().contains("Guru99 Bank"));  // Expecting redirection to login
+    }
+
+    // Test case for New Account
+    @Test
+    @DisplayName("TC1 - New Account")
+    public void testCase1() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickNewAccount();
+        newAccountPage.setCustomerID("");
+        newAccountPage.setAccountType("Savings");
+        newAccountPage.setInitialDeposit("1000");
+        Assert.assertEquals(newAccountPage.getCustomerIDAlert(), "Customer ID is required");
+    }
+
+    @Test
+    @DisplayName("TC2 - New Account")
+    public void testCase2() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickNewAccount();
+        newAccountPage.setCustomerID("@#$%");
+        newAccountPage.setAccountType("Current");
+        newAccountPage.setInitialDeposit("1000");
+        Assert.assertEquals(newAccountPage.getCustomerIDAlert(), "Special characters are not allowed");
+    }
+
+    @Test
+    @DisplayName("TC3 - New Account")
+    public void testCase3() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickNewAccount();
+        newAccountPage.setCustomerID("abc");
+        newAccountPage.setAccountType("Savings");
+        newAccountPage.setInitialDeposit("1000");
+        Assert.assertEquals(newAccountPage.getCustomerIDAlert(), "Characters are not allowed");
+    }
+
+    @Test
+    @DisplayName("TC4 - New Account")
+    public void testCase4() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickNewAccount();
+        newAccountPage.setCustomerID(" 123");
+        newAccountPage.setAccountType("Current");
+        newAccountPage.setInitialDeposit("1000");
+        Assert.assertEquals(newAccountPage.getCustomerIDAlert(), "First character can not have space");
+    }
+
+    @Test
+    @DisplayName("TC5 - New Account")
+    public void testCase5() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickNewAccount();
+        newAccountPage.setCustomerID("123");
+        newAccountPage.setAccountType("Savings");
+        newAccountPage.setInitialDeposit("");
+        //wait.until(ExpectedConditions.alertIsPresent());
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        Assert.assertEquals(newAccountPage.getInitialDepositAlert(), "Initial deposit must not be blank");
+    }
+
+    @Test
+    @DisplayName("TC6 - New Account")
+    public void testCase6() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickNewAccount();
+        newAccountPage.setCustomerID("123");
+        newAccountPage.setAccountType("Current");
+        newAccountPage.setInitialDeposit("@#$%");
+        Assert.assertEquals(newAccountPage.getInitialDepositAlert(), "Special characters are not allowed");
+    }
+
+    @Test
+    @DisplayName("TC7 - New Account")
+    public void testCase7() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickNewAccount();
+        newAccountPage.setCustomerID("123");
+        newAccountPage.setAccountType("Savings");
+        newAccountPage.setInitialDeposit("abc");
+        Assert.assertEquals(newAccountPage.getInitialDepositAlert(), "Characters are not allowed");
+    }
+
+    @Test
+    @DisplayName("TC8 - New Account")
+    public void testCase8() {
+        loginPage.login("mngr599089", "pehErUs");
+        homePage.clickNewAccount();
+        newAccountPage.setCustomerID("123");
+        newAccountPage.setAccountType("Current");
+        newAccountPage.setInitialDeposit(" 123");
+        Assert.assertEquals(newAccountPage.getInitialDepositAlert(), "First character can not have space");
     }
 
     @AfterClass
