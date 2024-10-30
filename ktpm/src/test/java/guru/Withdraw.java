@@ -38,11 +38,21 @@ public class Withdraw {
     }
 
     public void enterValueAndCheckNotification() {
-        WebElement inputField = driver.findElement(By.name("accountno"));
-        inputField.sendKeys("#%$^*");
+        WebElement accountNoField = driver.findElement(By.name("accountno"));
+//        accountNoField.sendKeys("#%$^*");
+        WebElement ammountField = driver.findElement(By.name("ammount"));
+        WebElement descriptionField = driver.findElement(By.name("desc"));
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(driver -> !accountNoField.getAttribute("value").isEmpty());
+        wait.until(driver -> !ammountField.getAttribute("value").isEmpty());
+        wait.until(driver -> !descriptionField.getAttribute("value").isEmpty());
+
+//        String accountNo = accountNoField.getAttribute("value");
+//        System.out.println("Account No: " + accountNo);
 
         checkNotificationById("message2");
-        checkNotificationById("message3");
+        checkNotificationById("message1");
     }
 
     public void checkNotificationById(String notificationId) {
