@@ -12,6 +12,9 @@ public class HomePage {
     @FindBy(linkText="Log out")
     WebElement logoutButton;
 
+    @FindBy(linkText="New Account")
+    WebElement newAccountLink;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -20,5 +23,9 @@ public class HomePage {
     public void logout() {
         logoutButton.click();
         driver.switchTo().alert().accept(); // Confirm logout alert
+    }
+
+    public void clickNewAccount() {
+        newAccountLink.click();
     }
 }
