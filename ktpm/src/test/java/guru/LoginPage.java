@@ -23,9 +23,7 @@ public class LoginPage {
 
     public void login(String userID, String password) {
 //        userIDField.clear();
-//        passwordField.clear();
-        
-        
+//        passwordField.clear();                
         try {
         	userIDField.sendKeys(userID);
             passwordField.sendKeys(password);

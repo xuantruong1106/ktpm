@@ -16,7 +16,12 @@ public class HomePage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-
+    
+    public void login() {
+        logoutButton.click();
+        driver.switchTo().alert().accept(); // Confirm logout alert
+    }
+    
     public void logout() {
         logoutButton.click();
         driver.switchTo().alert().accept(); // Confirm logout alert
