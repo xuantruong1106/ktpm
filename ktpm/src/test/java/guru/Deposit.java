@@ -17,7 +17,7 @@ public class Deposit {
 
     public void setUp() {
         driver = new EdgeDriver();
-        driver.get("http://www.demo.guru99.com/V4/");
+        driver.get("https://www.demo.guru99.com/V4/manager/DepositInput.php");
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
 
@@ -134,21 +134,7 @@ public class Deposit {
         } else {
             System.out.println("FAIL");
         }
-
-        /*WebElement AccountInput = driver.findElement(By.name("uid"));
-        AccountInput.sendKeys("mngr596397");
-
-        WebElement AmmountInput = driver.findElement(By.name("password"));
-        AmmountInput.sendKeys("UsyvUsy");
-
-        WebElement Submit = driver.findElement(By.name("btnLogin"));
-        Submit.click();
-
-        if (driver.getPageSource().contains("Welcome To Manager's Page of Guru99 Bank")) {
-            System.out.println("PASS");
-        } else {
-            System.out.println("FAIL");
-        }*/
+        
     }
 
     public void checkNotificationById(String notificationId) {
