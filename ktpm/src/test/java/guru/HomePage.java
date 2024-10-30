@@ -15,6 +15,9 @@ public class HomePage {
     @FindBy(linkText="New Account")
     WebElement newAccountLink;
 
+    @FindBy(linkText="Customised Statement")
+    WebElement customizedStatementLink;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -27,5 +30,9 @@ public class HomePage {
 
     public void clickNewAccount() {
         newAccountLink.click();
+    }
+
+    public void clickCustomizedStatement() {
+        customizedStatementLink.click();
     }
 }
