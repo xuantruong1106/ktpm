@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 import java.util.List;
@@ -16,16 +17,16 @@ public class Deposit {
 
     public void setUp() {
         driver = new EdgeDriver();
-        driver.get("https://www.demo.guru99.com/V4/manager/DepositInput.php");
+        driver.get("http://www.demo.guru99.com/V4/");
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
 
-        List<WebElement> inputElements = driver.findElements(By.tagName("input"));
+        /*List<WebElement> inputElements = driver.findElements(By.tagName("input"));
 
         System.out.println("Found " + inputElements.size() + " input elements.");
         for (WebElement element : inputElements) {
             System.out.println("Input element with name: " + element.getAttribute("name"));
-        }
+        }*/
     }
 
     public void AccountNumberSpecialCharacterCheck() {
@@ -114,6 +115,42 @@ public class Deposit {
         checkNotificationById("message17");
     }
 
+    public void ValidDepositCheck() {
+        WebElement AccountInput = driver.findElement(By.name("accountno"));
+        AccountInput.sendKeys("1");
+
+        WebElement AmmountInput = driver.findElement(By.name("ammount"));
+        AmmountInput.sendKeys("1");
+
+        WebElement DescriptionInput = driver.findElement(By.name("desc"));
+        DescriptionInput.sendKeys("test1");
+        DescriptionInput.sendKeys(Keys.TAB);
+
+        WebElement Submit = driver.findElement(By.name("AccSubmit"));
+        Submit.click();
+
+        if (driver.getPageSource().contains("Deposit succesfully")) {
+            System.out.println("PASS");
+        } else {
+            System.out.println("FAIL");
+        }
+
+        /*WebElement AccountInput = driver.findElement(By.name("uid"));
+        AccountInput.sendKeys("mngr596397");
+
+        WebElement AmmountInput = driver.findElement(By.name("password"));
+        AmmountInput.sendKeys("UsyvUsy");
+
+        WebElement Submit = driver.findElement(By.name("btnLogin"));
+        Submit.click();
+
+        if (driver.getPageSource().contains("Welcome To Manager's Page of Guru99 Bank")) {
+            System.out.println("PASS");
+        } else {
+            System.out.println("FAIL");
+        }*/
+    }
+
     public void checkNotificationById(String notificationId) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement notification = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(notificationId)));
@@ -137,12 +174,13 @@ public class Deposit {
     public static void main(String[] args) {
         Deposit deposit = new Deposit();
         deposit.setUp();
-        //deposit.AccountNumberSpecialCharacterCheck();
+        deposit.AccountNumberSpecialCharacterCheck();
         //deposit.AccountNumberCharacterCheck();
-        deposit.AccountNumberEmtpyCheck();
+        //deposit.AccountNumberEmtpyCheck();
         //deposit.AmmountSpecialCharacterCheck();
         //deposit.AmmountCharacterCheck();
         //deposit.AmmountEmptyCheck();
         //deposit.DescriptionEmptyCheck();
+        //deposit.ValidDepositCheck();
     }
 }
