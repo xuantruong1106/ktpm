@@ -22,7 +22,6 @@ public class App {
 
     @BeforeClass
     public void setUp() {
-        System.setProperty("webdriver.edge.driver", "E:/Network Programming/Projects/ktpm/ktpm/edge/msedgedriver.exe");
         driver = new EdgeDriver();
         driver.get("http://www.demo.guru99.com/V4/");
 
