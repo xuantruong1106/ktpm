@@ -7,10 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import java.time.Duration;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Deposit {
     private WebDriver driver;
@@ -37,7 +36,13 @@ public class Deposit {
         WebElement DescriptionInput = driver.findElement(By.name("desc"));
         DescriptionInput.sendKeys("test1");
 
+        System.out.println("AccountNumberSpecialCharacterCheck");
         checkNotificationById("message2");
+
+        AccountInput.clear();
+        AmmountInput.clear();
+        DescriptionInput.clear();
+
     }
 
     public void AccountNumberCharacterCheck() {
@@ -48,7 +53,13 @@ public class Deposit {
         WebElement DescriptionInput = driver.findElement(By.name("desc"));
         DescriptionInput.sendKeys("test1");
 
+        System.out.println("AccountNumberCharacterCheck");
         checkNotificationById("message2");
+
+        AccountInput.clear();
+        AmmountInput.clear();
+        DescriptionInput.clear();
+
     }
 
     public void AccountNumberEmtpyCheck() {
@@ -62,7 +73,13 @@ public class Deposit {
         WebElement DescriptionInput = driver.findElement(By.name("desc"));
         DescriptionInput.sendKeys("test1");
 
+        System.out.println("AccountNumberEmtpyCheck");
         checkNotificationById("message2");
+
+        AccountInput.clear();
+        AmmountInput.clear();
+        DescriptionInput.clear();
+
     }
 
     public void AmmountSpecialCharacterCheck() {
@@ -73,7 +90,13 @@ public class Deposit {
         WebElement DescriptionInput = driver.findElement(By.name("desc"));
         DescriptionInput.sendKeys("test1");
 
+        System.out.println("AmmountSpecialCharacterCheck");
         checkNotificationById("message1");
+
+        AccountInput.clear();
+        AmmountInput.clear();
+        DescriptionInput.clear();
+
     }
 
     public void AmmountCharacterCheck() {
@@ -84,7 +107,13 @@ public class Deposit {
         WebElement DescriptionInput = driver.findElement(By.name("desc"));
         DescriptionInput.sendKeys("test1");
 
+        System.out.println("AmmountCharacterCheck");
         checkNotificationById("message1");
+
+        AccountInput.clear();
+        AmmountInput.clear();
+        DescriptionInput.clear();
+
     }
 
     public void AmmountEmptyCheck() {
@@ -98,7 +127,13 @@ public class Deposit {
         WebElement DescriptionInput = driver.findElement(By.name("desc"));
         DescriptionInput.sendKeys("test1");
 
+        System.out.println("AmmountEmptyCheck");
         checkNotificationById("message1");
+
+        AccountInput.clear();
+        AmmountInput.clear();
+        DescriptionInput.clear();
+
     }
 
     public void DescriptionEmptyCheck() {
@@ -112,7 +147,13 @@ public class Deposit {
         DescriptionInput.sendKeys("");
         DescriptionInput.sendKeys(Keys.TAB);
 
+        System.out.println("DescriptionEmptyCheck");
         checkNotificationById("message17");
+
+        AccountInput.clear();
+        AmmountInput.clear();
+        DescriptionInput.clear();
+
     }
 
     public void ValidDepositCheck() {
@@ -129,8 +170,10 @@ public class Deposit {
         WebElement Submit = driver.findElement(By.name("AccSubmit"));
         Submit.click();
 
+        System.out.println("ValidDepositCheck");
         if (driver.getPageSource().contains("Deposit succesfully")) {
             System.out.println("PASS");
+
         } else {
             System.out.println("FAIL");
         }
@@ -142,7 +185,7 @@ public class Deposit {
         WebElement notification = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(notificationId)));
 
         String notificationText = notification.getText();
-        System.out.println("Result: " + notificationText);
+        //System.out.println("Result: " + notificationText);
         if ((notificationText.equals("Special characters are not allowed")) ||
                 (notificationText.equals("Characters are not allowed")) ||
                 (notificationText.equals("Account Number must not be blank")) ||
@@ -154,19 +197,18 @@ public class Deposit {
         else {
             System.out.println("FAIL");
         }
-
     }
 
     public static void main(String[] args) {
         Deposit deposit = new Deposit();
         deposit.setUp();
         deposit.AccountNumberSpecialCharacterCheck();
-        //deposit.AccountNumberCharacterCheck();
-        //deposit.AccountNumberEmtpyCheck();
-        //deposit.AmmountSpecialCharacterCheck();
-        //deposit.AmmountCharacterCheck();
-        //deposit.AmmountEmptyCheck();
-        //deposit.DescriptionEmptyCheck();
-        //deposit.ValidDepositCheck();
+        deposit.AccountNumberCharacterCheck();
+        deposit.AccountNumberEmtpyCheck();
+        deposit.AmmountSpecialCharacterCheck();
+        deposit.AmmountCharacterCheck();
+        deposit.AmmountEmptyCheck();
+        deposit.DescriptionEmptyCheck();
+        deposit.ValidDepositCheck();
     }
 }
