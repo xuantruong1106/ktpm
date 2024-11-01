@@ -44,28 +44,28 @@ public class NewCustomerPage {
     @FindBy(name = "sub")
     private WebElement submitButton;
 
-    @FindBy(id = "customerNameErrorId")
+    @FindBy(id = "message")
     private WebElement customerNameError;
 
-    @FindBy(id = "addressErrorId")
+    @FindBy(id = "message3")
     private WebElement addressError;
 
-    @FindBy(id = "cityErrorId")
+    @FindBy(id = "message4")
     private WebElement cityError;
 
-    @FindBy(id = "stateErrorId")
+    @FindBy(id = "message5")
     private WebElement stateError;
 
-    @FindBy(id = "pinErrorId")
+    @FindBy(id = "message6")
     private WebElement pinError;
 
-    @FindBy(id = "mobileErrorId")
+    @FindBy(id = "message7")
     private WebElement mobileError;
 
-    @FindBy(id = "emailErrorId")
+    @FindBy(id = "message9")
     private WebElement emailError;
 
-    @FindBy(id = "passwordErrorId")
+    @FindBy(id = "message18")
     private WebElement passwordError;
 
     public NewCustomerPage(WebDriver driver) {
