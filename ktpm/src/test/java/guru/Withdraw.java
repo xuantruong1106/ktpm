@@ -86,12 +86,12 @@ public class Withdraw {
     public void checkResetButton() {
         totalTests++;
 
+        WebElement resetButton = driver.findElement(By.name("res"));
+        resetButton.click();
+
         boolean isAccountNoEmpty = driver.findElement(By.name("accountno")).getAttribute("value").isEmpty();
         boolean isAmountEmpty = driver.findElement(By.name("ammount")).getAttribute("value").isEmpty();
         boolean isDescEmpty = driver.findElement(By.name("desc")).getAttribute("value").isEmpty();
-
-        WebElement resetButton = driver.findElement(By.name("res"));
-        resetButton.click();
 
         if (isAccountNoEmpty && isAmountEmpty && isDescEmpty) {
             pass++;
