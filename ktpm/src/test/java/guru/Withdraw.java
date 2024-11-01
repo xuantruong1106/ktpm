@@ -22,18 +22,11 @@ public class Withdraw {
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
 
-//        Tìm tất cả các phần tử <input>
-//        List<WebElement> inputElements = driver.findElements(By.tagName("input"));
-//
-//        System.out.println("Found " + inputElements.size() + " input elements.");
-//        for (WebElement element : inputElements) {
-//            System.out.println("Input element with name: " + element.getAttribute("name"));
-//        }
-
-        enterSpecialValueAndCheckNotification();
+        specialValueAndCheckNotification();
         blankValueAndCheckNotification();
-        enterCharacterValueAndCheckNotification();
-        enterTrueValueAndCheckResetButton();
+        characterValueAndCheckNotification();
+        checkSubmitButton();
+        checkResetButton();
 
         System.out.println("Total tests: " + totalTests);
         System.out.println("Pass: " + pass);
@@ -42,7 +35,7 @@ public class Withdraw {
         driver.quit();
     }
 
-    public void enterSpecialValueAndCheckNotification() {
+    public void specialValueAndCheckNotification() {
         checkFieldWithNotification("accountno", "#%$^*", "message2");
         checkFieldWithNotification("ammount", "#%$^*", "message1");
     }
@@ -53,13 +46,9 @@ public class Withdraw {
         checkFieldWithNotification("desc", "", "message17");
     }
 
-    public void enterCharacterValueAndCheckNotification() {
+    public void characterValueAndCheckNotification() {
         checkFieldWithNotification("accountno", "abc", "message2");
         checkFieldWithNotification("ammount", "abc", "message1");
-    }
-
-    public void enterTrueValueAndCheckResetButton() {
-        checkResetButton();
     }
 
     public void checkFieldWithNotification(String fieldName, String value, String notificationId) {
@@ -96,6 +85,26 @@ public class Withdraw {
         if (isAccountNoEmpty && isAmountEmpty && isDescEmpty) {
             pass++;
         } else {
+            fail++;
+        }
+    }
+
+    public void checkSubmitButton() {
+        totalTests++;
+
+        WebElement submitButton = driver.findElement(By.name("AccSubmit"));
+        submitButton.click();
+
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.alertIsPresent());
+
+//            String alertText = driver.switchTo().alert().getText();
+//            System.out.println("Alert: " + alertText);
+
+            driver.switchTo().alert().accept();
+            pass++;
+        } catch (Exception e) {
             fail++;
         }
     }
