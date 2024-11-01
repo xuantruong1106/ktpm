@@ -16,17 +16,11 @@ public class Withdraw {
 
     public void setUp() {
 //        System.setProperty("webdriver.edge.driver", "edge/msedgedriver.exe");
-//        WebElement userNameElement = driver.findElement(By.id("username"));
-//        WebElement passwordElement = driver.findElement(By.id("password"));
 
         driver = new EdgeDriver();
         driver.get("http://www.demo.guru99.com/V4/manager/WithdrawalInput.php");
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
-//        System.out.println(driver.getTitle());
-
-//        Tìm phần tử duy nhất
-//        WebElement loginButton = driver.findElement(By.name("btnLogin"));
 
 //        Tìm tất cả các phần tử <input>
 //        List<WebElement> inputElements = driver.findElements(By.tagName("input"));
@@ -39,30 +33,14 @@ public class Withdraw {
         enterSpecialValueAndCheckNotification();
         blankValueAndCheckNotification();
         enterCharacterValueAndCheckNotification();
+        enterTrueValueAndCheckResetButton();
+
         System.out.println("Total tests: " + totalTests);
         System.out.println("Pass: " + pass);
+        System.out.println("Fail: " + fail);
+
         driver.quit();
     }
-
-//    public void enterSpecialValueAndCheckNotification() {
-//        WebElement accountNoField = driver.findElement(By.name("accountno"));
-//        accountNoField.sendKeys("#%$^*");
-//        WebElement ammountField = driver.findElement(By.name("ammount"));
-//        ammountField.sendKeys("#%$^*");
-////        WebElement descriptionField = driver.findElement(By.name("desc"));
-////        descriptionField.sendKeys("#%$^*");
-//
-////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-////        wait.until(driver -> !accountNoField.getAttribute("value").isEmpty());
-////        wait.until(driver -> !ammountField.getAttribute("value").isEmpty());
-////        wait.until(driver -> !descriptionField.getAttribute("value").isEmpty());
-//
-////        String accountNo = accountNoField.getAttribute("value");
-////        System.out.println("Account No: " + accountNo);
-//
-//        checkNotificationById("message2");
-//        checkNotificationById("message1");
-//    }
 
     public void enterSpecialValueAndCheckNotification() {
         checkFieldWithNotification("accountno", "#%$^*", "message2");
@@ -80,13 +58,9 @@ public class Withdraw {
         checkFieldWithNotification("ammount", "abc", "message1");
     }
 
-//    public void checkNotificationById(String notificationId) {
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        WebElement notification = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(notificationId)));
-//
-//        String notificationText = notification.getText();
-//        System.out.println("Thông báo: " + notificationText);
-//    }
+    public void enterTrueValueAndCheckResetButton() {
+        checkResetButton();
+    }
 
     public void checkFieldWithNotification(String fieldName, String value, String notificationId) {
         totalTests++;
@@ -106,7 +80,23 @@ public class Withdraw {
             pass++;
         } catch (TimeoutException e) {
             fail++;
-            System.out.println("Fail: " + fail);
+        }
+    }
+
+    public void checkResetButton() {
+        totalTests++;
+
+        boolean isAccountNoEmpty = driver.findElement(By.name("accountno")).getAttribute("value").isEmpty();
+        boolean isAmountEmpty = driver.findElement(By.name("ammount")).getAttribute("value").isEmpty();
+        boolean isDescEmpty = driver.findElement(By.name("desc")).getAttribute("value").isEmpty();
+
+        WebElement resetButton = driver.findElement(By.name("res"));
+        resetButton.click();
+
+        if (isAccountNoEmpty && isAmountEmpty && isDescEmpty) {
+            pass++;
+        } else {
+            fail++;
         }
     }
 
